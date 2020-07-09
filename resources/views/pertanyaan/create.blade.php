@@ -10,17 +10,22 @@
 		<div class="row">
 			<div class="col-md-12">
 				<h1>Form buat pertanyaan</h1>
+				{{ Auth::user()->name }}
 
-				<form action="/pertanyaan/kirim" method="post">
+				<form action="/pertanyaan/send" method="post">
 					@csrf
 					<div class="form-group">
 						<label for="title">Judul Pertanyaan</label>
-						<input type="text" name="title" id="title" placeholder="masukan title" class="form-control p-2">
+						<input type="text" name="title" id="title" placeholder="Judul Pertanyaan" class="form-control p-2">
 					</div>
 					<div class="form-group">
 						<label for="content">Isi Pertanyaan</label>
-						<textarea name="content" class="form-control my-editor">{!! old('content', $content ?? '') !!}</textarea>
+						<textarea name="content" class="form-control my-editor p-2">{!! old('content', $content ?? '') !!}</textarea>
 
+					</div>
+					<div class="form-group">
+						<label for="tag">Tag</label>
+						<input type="text" name="tag" placeholder="Tulis tag disini" class="form-control p-2">
 					</div>
 					<button type="submit" class="btn btn-primary">Buat Pertanyaan</button>
 				</form>

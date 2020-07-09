@@ -1,9 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\User;
 use App\Question;
+use App\Answer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 
 class QuestionsController extends Controller
 {
@@ -13,9 +17,14 @@ class QuestionsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
-        $datas = Question::paginate();
-        return view('pertanyaan.index', compact('datas'));
+    { 
+        
+
+        $datas = DB::table('users')
+            ->join('questions', 'users.id', '=', 'questions.user_id')
+            ->select('questions.*', 'users.email as email')
+            ->get();
+        return view('index', compact('datas'));
     }
 
     /**
@@ -36,7 +45,13 @@ class QuestionsController extends Controller
      */
     public function store(Request $request)
     {
-        Question::create($request->all());
+        Question::create([
+            'user_id' => Auth::id(),
+            'title' => $request->title,
+            'content' => $request->content,
+            'tag' => $request->tag,
+            'vote' => 0,
+        ]);
         return redirect('/pertanyaan');
     }
 
