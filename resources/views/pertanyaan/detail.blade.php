@@ -11,7 +11,7 @@
 		<div class="row p-3">
 			<div class="col-md-12">
 				<p>
-					{{$question->isi}}
+					{!! $question->isi !!}
 				</p>
 				<div class="tags">
 					<a href="">tag</a>
