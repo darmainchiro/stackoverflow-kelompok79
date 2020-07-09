@@ -14,3 +14,11 @@
 Route::get('/', function () {
     return view('stackoverflow.index');
 });
+
+Route::group(['middleware' => 'auth'], function() {
+    Route::get('/tes', 'TesController@index');
+});
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
