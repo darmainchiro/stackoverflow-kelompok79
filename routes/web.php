@@ -15,6 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::group(['middleware' => 'auth'], function() {
+    Route::get('/tes', 'TesController@index');
+});
 Route::get('/pertanyaan','QuestionsController@index');  // menampilkan semua pertanyaan
 Route::get('/pertanyaan/create','QuestionsController@create'); // menampilkan form untuk buat pertanyaan
 Route::post('/pertanyaan/send','QuestionsController@store');
@@ -28,7 +31,6 @@ Route::delete('/pertanyaan/{question}','QuestionsController@destroy');
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
      \UniSharp\LaravelFilemanager\Lfm::routes();
  });
-
 
 Auth::routes();
 

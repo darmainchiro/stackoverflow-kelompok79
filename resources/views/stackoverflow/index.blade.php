@@ -9,6 +9,9 @@
     <div class="card-body">
     Halo
     </div>
+    @if(Auth::user() != '')
+    oke
+    @endif
     <!-- /.card-body -->
 </div>
 @endsection
