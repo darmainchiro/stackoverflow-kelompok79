@@ -12,4 +12,9 @@ class Question extends Model
     {
         return $this->belongsToMany(User::class, 'question_comment', 'question_id', 'user_id')->withPivot('comment')->withTimestamps();
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

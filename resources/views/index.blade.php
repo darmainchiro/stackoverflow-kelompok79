@@ -27,7 +27,7 @@
         </div>
         <div class="col-md-10">
             <h3><a href="/pertanyaan/{{$data->id}}/{{$data->title}}" class="">{{$data->title}}</a></h3>
-            <p class="d-inline">{{$data->tag}}</p>
+            {{-- <p class="d-inline">{{$data->tag}}</p> --}}
             <p class="float-right">dibuat oleh <span>{{$data->email}}</span></p>
         </div>
     </div>

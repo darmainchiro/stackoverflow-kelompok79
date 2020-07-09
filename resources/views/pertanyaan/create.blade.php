@@ -2,43 +2,44 @@
 @section('title-page','Buat Pertanyaan')
 
 @push('script-head')
-	<script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+<script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
 @endpush
 @section('content')
 
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<h1>Form buat pertanyaan</h1>
-				{{ Auth::user()->name }}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Form buat pertanyaan</h1>
+            {{ Auth::user()->name }}
 
-				<form action="/pertanyaan/send" method="post">
-					@csrf
-					<div class="form-group">
-						<label for="title">Judul Pertanyaan</label>
-						<input type="text" name="title" id="title" placeholder="Judul Pertanyaan" class="form-control p-2">
-					</div>
-					<div class="form-group">
-						<label for="content">Isi Pertanyaan</label>
-						<textarea name="content" class="form-control my-editor p-2">{!! old('content', $content ?? '') !!}</textarea>
+            <form action="{{ route('questions.store') }}" method="post">
+                @csrf
+                <div class="form-group">
+                    <label for="title">Judul Pertanyaan</label>
+                    <input type="text" name="title" id="title" placeholder="Judul Pertanyaan" class="form-control p-2">
+                </div>
+                <div class="form-group">
+                    <label for="content">Isi Pertanyaan</label>
+                    <textarea name="content"
+                        class="form-control my-editor p-2">{!! old('content', $content ?? '') !!}</textarea>
 
-					</div>
-					<div class="form-group">
-						<label for="tag">Tag</label>
-						<input type="text" name="tag" placeholder="Tulis tag disini" class="form-control p-2">
-					</div>
-					<button type="submit" class="btn btn-primary">Buat Pertanyaan</button>
-				</form>
-			</div>
-		</div>
-	</div>
+                </div>
+                <div class="form-group">
+                    <label for="tag">Tag</label>
+                    <input type="text" name="tag" placeholder="Tulis tag disini" class="form-control p-2">
+                </div>
+                <button type="submit" class="btn btn-primary">Buat Pertanyaan</button>
+            </form>
+        </div>
+    </div>
+</div>
 
 
 @endsection
 
 @push('scripts')
-	<script>		
-		  var editor_config = {
+<script>
+    var editor_config = {
 		    path_absolute : "/",
 		    selector: "textarea.my-editor",
 		    plugins: [

@@ -46,15 +46,31 @@ class QuestionsController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'title' => 'required',
+            'content' => 'required',
+        ]);
+
+        $user = Auth::user();
+
+        // ! Cara pertama
         // Question::create([
-        //     'user_id' => Auth::id(),
         //     'title' => $request->title,
         //     'content' => $request->content,
-        //     'tag' => $request->tag,
-        //     'vote' => 0,
+        //     'user_id' => $user['id'],
         // ]);
-        // ISTIRIHAT DISINI MAGHRIB
-        return redirect('/');
+
+        // ! Cara kedua
+        $question = new Question;
+        $question->title = $request->title;
+        $question->content = $request->content;
+        // $question->user_id = $user['id']; // Ini cara biasa buat hubungin fk si user
+        $question->user()->associate($user); // Ini cara kalo menggunakan eloquent relationship yg sifatnya "belongs to"
+        $question->save();
+
+
+
+        return redirect()->route('questions.index')->with('success', 'Data berhasil disimpan');
     }
 
     /**
