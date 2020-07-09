@@ -82,6 +82,7 @@ class QuestionsController extends Controller
      */
     public function destroy(Question $question)
     {
-        //
+        Question::destroy($question->id);
+        return redirect('/pertanyaan');
     }
 }
