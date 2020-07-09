@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\User;
 use App\Question;
 use App\Answer;
@@ -17,8 +18,8 @@ class QuestionsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    { 
-        
+    {
+
 
         $datas = DB::table('users')
             ->join('questions', 'users.id', '=', 'questions.user_id')
@@ -64,7 +65,7 @@ class QuestionsController extends Controller
      */
     public function show(Question $question)
     {
-        return view('pertanyaan.detail',compact('question'));
+        return view('pertanyaan.detail', compact('question'));
     }
 
     /**
@@ -77,7 +78,7 @@ class QuestionsController extends Controller
     {
         $question = DB::table('users')
             ->join('questions', 'users.id', '=', 'questions.user_id')
-            ->select('questions.*', 'users.email as email','users.id as user_id')
+            ->select('questions.*', 'users.email as email', 'users.id as user_id')
             ->get();
         return view('pertanyaan.edit', compact('question'));
     }
@@ -92,12 +93,12 @@ class QuestionsController extends Controller
     public function update(Request $request, Question $question)
     {
         // dd($question);
-        Question::where('id',$question->id)
-                ->update([
-                    'title' => $request->title,
-                    'content' => $request->content
-                ]);
-       return redirect('/pertanyaan/' . $question->id . '/' . $question->title);
+        Question::where('id', $question->id)
+            ->update([
+                'title' => $request->title,
+                'content' => $request->content
+            ]);
+        return redirect('/pertanyaan/' . $question->id . '/' . $question->title);
     }
 
     /**
@@ -110,5 +111,34 @@ class QuestionsController extends Controller
     {
         Question::destroy($question->id);
         return redirect('/');
+    }
+
+    public function getComment($id)
+    {
+        $userId = Auth::id();
+
+        $questions = Question::where('id', $id)
+            ->where('user_id', $userId)
+            ->with('comments')
+            ->get();
+        return $questions;
+    }
+
+    public function createComment(Request $request, $id)
+    {
+        $question = Question::findOrFail($id);
+        $user = Auth::id();
+
+        $this->validate($request, [
+            'comment' => 'required'
+        ]);
+
+        $question->comments()->attach([
+            $user => [
+                'comment' => $request->comment
+            ]
+        ]);
+
+        return $question;
     }
 }

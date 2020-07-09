@@ -17,6 +17,9 @@ Route::group(['middleware' => 'auth'], function () {
     });
 });
 
+Route::get('questions/comment/{id}', 'QuestionsController@getComment')->name('questions.comment.index');
+Route::post('questions/comment/{id}', 'QuestionsController@createComment')->name('questions.comment.store');
+
 Route::resource('questions', 'QuestionsController');
 
 
