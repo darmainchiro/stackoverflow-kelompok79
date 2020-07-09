@@ -14,3 +14,9 @@
 Route::get('/', function () {
     return view('stackoverflow.index');
 });
+
+Route::get('/pertanyaan','QuestionsController@index');  // menampilkan semua pertanyaan
+Route::get('/pertanyaan/buat','QuestionsController@create'); // menampilkan form untuk buat pertanyaan
+Route::post('/pertanyaan/kirim','QuestionsController@store');
+
+Route::get('/pertanyaan/{question}/{judul}','QuestionsController@show');
