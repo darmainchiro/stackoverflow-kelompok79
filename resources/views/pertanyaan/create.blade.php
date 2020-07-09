@@ -1,7 +1,11 @@
 @extends('adminlte.master')
+@section('title-page','Buat Pertanyaan')
 
+@push('script-head')
+	<script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+@endpush
 @section('content')
-<script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
@@ -10,12 +14,12 @@
 				<form action="/pertanyaan/kirim" method="post">
 					@csrf
 					<div class="form-group">
-						<label for="judul">Judul</label>
-						<input type="text" name="judul" id="judul" placeholder="masukan judul" class="form-control p-2">
+						<label for="title">Judul Pertanyaan</label>
+						<input type="text" name="title" id="title" placeholder="masukan title" class="form-control p-2">
 					</div>
 					<div class="form-group">
-						<label for="isi">isi</label>
-						<textarea name="isi" class="form-control my-editor">{!! old('isi', $content ?? '') !!}</textarea>
+						<label for="content">Isi Pertanyaan</label>
+						<textarea name="content" class="form-control my-editor">{!! old('content', $content ?? '') !!}</textarea>
 
 					</div>
 					<button type="submit" class="btn btn-primary">Buat Pertanyaan</button>
@@ -26,8 +30,9 @@
 
 
 @endsection
-	<script>
-		@push('scripts')
+
+@push('scripts')
+	<script>		
 		  var editor_config = {
 		    path_absolute : "/",
 		    selector: "textarea.my-editor",

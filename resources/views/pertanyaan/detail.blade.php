@@ -1,17 +1,19 @@
 @extends('adminlte.master')
+@section('title-page','Detail Pertanyaan')
+
 
 @section('content')
 	<div class="container">
 		<div class="row p-3">
 			<div class="col-md-12">
-				<h1>{{$question->judul}}</h1>
+				<h1>{{$question->title}}</h1>
 			</div>
 
 		</div>
 		<div class="row p-3">
 			<div class="col-md-12">
 				<p>
-					{!! $question->isi !!}
+					{!! $question->content !!}
 				</p>
 				<div class="tags">
 					<a href="">tag</a>
@@ -35,7 +37,7 @@
 					@csrf
 					<div class="form-group">
 						<label>Jawaban Kamu</label>
-						<textarea class="form-control" placeholder="Jawaban Kamu ..." class="p-3" name="isi"></textarea>
+						<textarea class="form-control" placeholder="Jawaban Kamu ..." class="p-3" name="content"></textarea>
 					</div>
 					<button type="submit" class="btn btn-primary">Kirim Jawaban</button>
 				</form>

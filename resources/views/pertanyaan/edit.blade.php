@@ -1,4 +1,5 @@
 @extends('adminlte.master')
+@section('title-page','Edit Pertanyaan')
 
 @section('content')
 	<div class="container">
@@ -10,12 +11,12 @@
 					@csrf
 					@method('put')
 					<div class="form-group">
-						<label for="judul">Judul</label>
-						<input type="text" name="judul" id="judul" placeholder="masukan judul" class="form-control p-2" value="{{$question->judul}}">
+						<label for="title">Judul Pertanyaan</label>
+						<input type="text" name="title" id="title" placeholder="masukan title" class="form-control p-2" value="{{$question->title}}">
 					</div>
 					<div class="form-group">
-						<label for="isi">isi</label>
-						<textarea placeholder="masukan isi" rows="8" class="form-control" name="isi">{{$question->isi}}</textarea>
+						<label for="content">Isi Jawaban</label>
+						<textarea placeholder="masukan content" rows="8" class="form-control" name="content">{{$question->content}}</textarea>
 					</div>
 					<button type="submit" class="btn btn-primary">Buat Pertanyaan</button>
 				</form>

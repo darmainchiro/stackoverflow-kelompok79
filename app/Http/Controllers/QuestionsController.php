@@ -14,7 +14,7 @@ class QuestionsController extends Controller
      */
     public function index()
     {   
-        $datas = Question::all();
+        $datas = Question::paginate();
         return view('pertanyaan.index', compact('datas'));
     }
 
@@ -25,7 +25,7 @@ class QuestionsController extends Controller
      */
     public function create()
     {
-        return view('pertanyaan.buat');
+        return view('pertanyaan.create');
     }
 
     /**
@@ -74,10 +74,10 @@ class QuestionsController extends Controller
         // dd($question);
         Question::where('id',$question->id)
                 ->update([
-                    'judul' => $request->judul,
-                    'isi' => $request->isi
+                    'title' => $request->title,
+                    'content' => $request->content
                 ]);
-       return redirect('/pertanyaan/' . $question->id . '/' . $question->judul);
+       return redirect('/pertanyaan/' . $question->id . '/' . $question->title);
     }
 
     /**
