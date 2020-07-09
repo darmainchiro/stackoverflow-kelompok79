@@ -12,10 +12,10 @@
 */
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/tes', 'TesController@index');
+    Route::get('/', function () {
+        return redirect()->route('questions.index');
+    });
 });
-
-Route::get('/', 'QuestionsController@index');
 
 Route::resource('questions', 'QuestionsController');
 
