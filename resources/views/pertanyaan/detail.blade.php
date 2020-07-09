@@ -21,11 +21,13 @@
 				</div>
 				<div>
 					<p>
-						<form action="/pertanyaan/{{$question->id}}" method="post" class="d-inline">
-							@csrf
-							@method('delete')
-							<button type="submit" class="badge badge-secondary">Delete</button>
-						</form>
+						@if (Auth::id() == $question->user_id)
+							<form action="/pertanyaan/{{$question->id}}" method="post" class="d-inline">
+								@csrf
+								@method('delete')
+								<button type="submit" class="badge badge-secondary">Delete</button>
+							</form>
+						@endif 
 						<a href="/pertanyaan/{{$question->id}}" class="badge badge-secondary">edit</a>
 					</p>
 				</div>

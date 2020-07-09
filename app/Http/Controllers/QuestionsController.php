@@ -52,7 +52,7 @@ class QuestionsController extends Controller
             'tag' => $request->tag,
             'vote' => 0,
         ]);
-        return redirect('/pertanyaan');
+        return redirect('/');
     }
 
     /**
@@ -74,6 +74,10 @@ class QuestionsController extends Controller
      */
     public function edit(Question $question)
     {
+        $question = DB::table('users')
+            ->join('questions', 'users.id', '=', 'questions.user_id')
+            ->select('questions.*', 'users.email as email','users.id as user_id')
+            ->get();
         return view('pertanyaan.edit', compact('question'));
     }
 
@@ -104,6 +108,6 @@ class QuestionsController extends Controller
     public function destroy(Question $question)
     {
         Question::destroy($question->id);
-        return redirect('/pertanyaan');
+        return redirect('/');
     }
 }
