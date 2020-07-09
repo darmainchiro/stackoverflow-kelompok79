@@ -13,7 +13,7 @@
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', function () {
-        return redirect()->route('questions.index');
+        return redirect()->route('questions.index')->with('success', 'Yeyyy berhasil 😁');
     });
 });
 
