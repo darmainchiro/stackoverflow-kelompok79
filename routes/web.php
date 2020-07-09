@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('stackoverflow.index');
+    return view('welcome');
 });
 
 Route::get('/pertanyaan','QuestionsController@index');  // menampilkan semua pertanyaan
@@ -24,3 +24,12 @@ Route::get('/pertanyaan/{question}','QuestionsController@edit');
 Route::put('/pertanyaan/{question}/update','QuestionsController@update');
 Route::delete('/pertanyaan/{question}','QuestionsController@destroy');
 
+// UNISHAR CKEDITOR
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+     \UniSharp\LaravelFilemanager\Lfm::routes();
+ });
+
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
