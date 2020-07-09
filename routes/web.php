@@ -20,5 +20,7 @@ Route::get('/pertanyaan/buat','QuestionsController@create'); // menampilkan form
 Route::post('/pertanyaan/kirim','QuestionsController@store');
 
 Route::get('/pertanyaan/{question}/{judul}','QuestionsController@show');
+Route::get('/pertanyaan/{question}','QuestionsController@edit');
+Route::put('/pertanyaan/{question}/update','QuestionsController@update');
 Route::delete('/pertanyaan/{question}','QuestionsController@destroy');
 
