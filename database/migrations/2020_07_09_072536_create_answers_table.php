@@ -17,9 +17,10 @@ class CreateAnswersTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('question_id');
-            $table->longText('content');
-            $table->integer('vote');
-            $table->boolean('best_answer');
+
+            $table->text('content');
+            $table->integer('vote')->default(0);
+            $table->boolean('best_answer')->default(false);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

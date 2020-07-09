@@ -16,10 +16,11 @@ class CreateQuestionCommentTable extends Migration
         Schema::create('question_comment', function (Blueprint $table) {
             $table->unsignedBigInteger('question_id');
             $table->unsignedBigInteger('user_id');
-            $table->longText('content');
 
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('question_id')->references('id')->on('questions');
+            $table->text('content');
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
         });
     }
 

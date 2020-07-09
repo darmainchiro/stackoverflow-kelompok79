@@ -19,7 +19,9 @@ class CreateQuestionTagTable extends Migration
 
             $table->foreign('question_id')->references('id')->on('questions');
             $table->foreign('tag_id')->references('id')->on('tags');
-            
+
+            $table->primary(['question_id', 'tag_id']);
+            $table->unique(['question_id', 'tag_id']);
         });
     }
 
