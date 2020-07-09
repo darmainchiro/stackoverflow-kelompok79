@@ -45,13 +45,14 @@ class QuestionsController extends Controller
      */
     public function store(Request $request)
     {
-        Question::create([
-            'user_id' => Auth::id(),
-            'title' => $request->title,
-            'content' => $request->content,
-            'tag' => $request->tag,
-            'vote' => 0,
-        ]);
+        // Question::create([
+        //     'user_id' => Auth::id(),
+        //     'title' => $request->title,
+        //     'content' => $request->content,
+        //     'tag' => $request->tag,
+        //     'vote' => 0,
+        // ]);
+        // ISTIRIHAT DISINI MAGHRIB
         return redirect('/');
     }
 

@@ -23,11 +23,16 @@ Route::get('/pertanyaan/{question}','QuestionsController@edit');
 Route::put('/pertanyaan/{question}/update','QuestionsController@update');
 Route::delete('/pertanyaan/{question}','QuestionsController@destroy');
 
+
+Route::post('/answers/store','AnswersController@store');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+
 // UNISHAR CKEDITOR
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
      \UniSharp\LaravelFilemanager\Lfm::routes();
  });
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');

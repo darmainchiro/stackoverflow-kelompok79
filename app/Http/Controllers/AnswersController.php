@@ -35,7 +35,14 @@ class AnswersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         Answer::create([
+            'user_id' => Auth::id(),
+            'question_id' => $request->title,
+            'content' => $request->content,
+            'vote' => 0,
+            'best_answer' => false,
+        ]);
+         return 'berhasil';
     }
 
     /**
@@ -69,7 +76,7 @@ class AnswersController extends Controller
      */
     public function update(Request $request, Answer $answer)
     {
-        //
+       
     }
 
     /**

@@ -27,15 +27,16 @@
 								@method('delete')
 								<button type="submit" class="badge badge-secondary">Delete</button>
 							</form>
+							<a href="/pertanyaan/{{$question->id}}" class="badge badge-secondary">edit</a>
 						@endif 
-						<a href="/pertanyaan/{{$question->id}}" class="badge badge-secondary">edit</a>
+						
 					</p>
 				</div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col">
-				<form action="" method="post">
+				<form action="/answers/store" method="post">
 					@csrf
 					<div class="form-group">
 						<label>Jawaban Kamu</label>
