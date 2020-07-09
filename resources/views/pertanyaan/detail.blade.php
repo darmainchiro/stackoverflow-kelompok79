@@ -22,14 +22,29 @@
 					<a href="">tag</a>
 					<a href="">tag</a>
 				</div>
+				<div>
+					<p>
+						<form action="/pertanyaan/{{$question->id}}" method="post" class="d-inline">
+							@csrf
+							@method('delete')
+							<button type="submit" class="">Delete</button>
+						</form>
+						<a href="">aasd</a>
+					</p>
+				</div>
 			</div>
 		</div>
 		<div class="row">
-			<form>
-				<div class="form-group">
-					<textarea class="form-control" placeholder="Jawaban Kamu ..." class="p-3" name="isi"></textarea>
+			<div class="col">
+				<form action="" method="post">
+					@csrf
+					<div class="form-group">
+						<label>Jawaban Kamu</label>
+						<textarea class="form-control" placeholder="Jawaban Kamu ..." class="p-3" name="isi"></textarea>
+					</div>
+					<button type="submit" class="btn btn-primary">Kirim Jawaban</button>
+				</form>
 				</div>
-			</form>
 		</div>
 	</div>
 @endsection
