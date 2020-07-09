@@ -59,7 +59,7 @@ class QuestionsController extends Controller
      */
     public function edit(Question $question)
     {
-        //
+        return view('pertanyaan.edit', compact('question'));
     }
 
     /**
@@ -71,7 +71,13 @@ class QuestionsController extends Controller
      */
     public function update(Request $request, Question $question)
     {
-        //
+        // dd($question);
+        Question::where('id',$question->id)
+                ->update([
+                    'judul' => $request->judul,
+                    'isi' => $request->isi
+                ]);
+       return redirect('/pertanyaan/' . $question->id . '/' . $question->judul);
     }
 
     /**
