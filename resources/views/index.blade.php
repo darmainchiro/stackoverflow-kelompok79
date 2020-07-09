@@ -1,41 +1,62 @@
 @extends('adminlte.master')
 @section('title-page','Daftar Pertanyaan')
 @section('content')
-<div class="container">
-    @if ( count($datas) == 0)
-    <div class="row p-2 m-2">
-        <div class="col-md">
-            <p class="text-center">Tidak ada data</p>
-        </div>
-    </div>
-    @else
-    @foreach ($datas as $data)
-    <div class="row p-2 m-2">
-        <div class="col-md-2 ">
-            <div class="row">
-                <div class="col text-center">
 
-                    <span>{{$data->vote}}</span>
-                    <span class="d-block">Votes</span>
-
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title mt-2">Daftar Pertanyaan</h3>
                 </div>
-                <div class="col text-center">
-                    <span>{{$data->vote}}</span>
-                    <span class="d-block">Jawaban</span>
+
+                <div class="card-body">
+                    <table id="questions-table" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Vote</th>
+                                <th>Jawaban</th>
+                                <th>Judul</th>
+                                <th>Dibuat oleh</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
         </div>
-        <div class="col-md-10">
-            <h3><a href="/pertanyaan/{{$data->id}}/{{$data->title}}" class="">{{$data->title}}</a></h3>
-            {{-- <p class="d-inline">{{$data->tag}}</p> --}}
-            <p class="float-right">dibuat oleh <span>{{$data->email}}</span></p>
-        </div>
     </div>
-    @endforeach
-    @endif
-
 </div>
 
 @endsection
 
-@push('scripts') @include('adminlte.partials.alert') @endpush
+@push('scripts')
+@include('adminlte.partials.alert')
+<script>
+    $(function () {
+            $('#questions-table').DataTable({
+                processing: true,
+                serverSide: true,
+                info: false,
+                ajax: '{{ route('questions.data') }}',
+                dom: '<"btn-tambah">frtlp',
+                columns: [
+                    { data: 'DT_RowIndex', orderable: false, searchable: false},
+                    { data: 'vote'},
+                    {
+                        data: 'answers',
+                        render: function (data, type, row) {
+                            return data.length
+                        }
+                    },
+                    { data: 'title'},
+                    { data: 'user.name'},
+                    { data: 'action', align: 'center'}
+                ],
+            })
+
+            $('div.btn-tambah').html('<a href="{{ route('questions.create') }}" class="btn btn-primary mb-n5">Buat pertanyaan</a>')
+        })
+</script>
+@endpush

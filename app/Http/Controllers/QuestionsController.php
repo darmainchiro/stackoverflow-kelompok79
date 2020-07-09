@@ -19,13 +19,7 @@ class QuestionsController extends Controller
      */
     public function index()
     {
-
-
-        $datas = DB::table('users')
-            ->join('questions', 'users.id', '=', 'questions.user_id')
-            ->select('questions.*', 'users.email as email')
-            ->get();
-        return view('index', compact('datas'));
+        return view('index');
     }
 
     /**
