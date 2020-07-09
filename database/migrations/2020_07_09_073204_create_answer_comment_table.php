@@ -17,10 +17,12 @@ class CreateAnswerCommentTable extends Migration
             $table->unsignedBigInteger('answer_id');
             $table->unsignedBigInteger('user_id');
 
-            $table->text('content');
+            $table->text('comment');
 
             $table->foreign('answer_id')->references('id')->on('answers')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->timestamps();
         });
     }
 
