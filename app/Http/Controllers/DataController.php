@@ -12,7 +12,7 @@ class DataController extends Controller
         $questions = Question::with('user', 'answers')->get();
 
         return datatables()->of($questions)
-            ->addColumn('action', 'ini aksi')
+            ->addColumn('action', 'pertanyaan.action')
             ->addIndexColumn()
             ->toJson();
     }
