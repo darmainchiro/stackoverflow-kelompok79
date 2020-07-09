@@ -12,12 +12,25 @@
 */
 
 Route::get('/', function () {
-    return view('stackoverflow.index');
+    return view('welcome');
 });
 
 Route::group(['middleware' => 'auth'], function() {
     Route::get('/tes', 'TesController@index');
 });
+Route::get('/pertanyaan','QuestionsController@index');  // menampilkan semua pertanyaan
+Route::get('/pertanyaan/buat','QuestionsController@create'); // menampilkan form untuk buat pertanyaan
+Route::post('/pertanyaan/kirim','QuestionsController@store');
+
+Route::get('/pertanyaan/{question}/{judul}','QuestionsController@show');
+Route::get('/pertanyaan/{question}','QuestionsController@edit');
+Route::put('/pertanyaan/{question}/update','QuestionsController@update');
+Route::delete('/pertanyaan/{question}','QuestionsController@destroy');
+
+// UNISHAR CKEDITOR
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+     \UniSharp\LaravelFilemanager\Lfm::routes();
+ });
 
 Auth::routes();
 
