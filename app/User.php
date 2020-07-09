@@ -37,8 +37,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-     public function questions()
+    public function questions()
     {
         return $this->hasMany('App\Question');
+    }
+
+    public function comments()
+    {
+        return $this->belongsToMany(Question::class, 'question_comment', 'user_id', 'question_id')->withPivot('comment')->withTimestamps();
     }
 }
