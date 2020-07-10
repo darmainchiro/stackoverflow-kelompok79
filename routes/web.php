@@ -20,8 +20,14 @@ Route::group(['middleware' => 'auth'], function () {
 Route::get('questions/comment/{id}', 'QuestionsController@getComment')->name('questions.comment.index');
 Route::post('questions/comment/{id}', 'QuestionsController@createComment')->name('questions.comment.store');
 
-Route::get('/questions/upvote/{question_id}','ReputasionsController@upvote');
-Route::get('/questions/downvote/{question_id}','ReputasionsController@downvote');
+// UPVOTE && DOWNVOTE pertanyaan
+Route::get('/questions/upvote/{question_id}','ReputasionsController@upVoteQuestion');
+Route::get('/questions/downvote/{question_id}','ReputasionsController@downVoteQuestion');
+
+// UPVOTE && DOWNVOTE JAWABAN
+Route::get('/answers/upvote/{answers_id}/{question_id}','ReputasionsController@upVoteAnswer');
+Route::get('/answers/downvote/{answers_id}/{question_id}','ReputasionsController@downvoteAnswer');
+
 
 Route::get('questions/data', 'DataController@questions')->name('questions.data');
 Route::resource('questions', 'QuestionsController');

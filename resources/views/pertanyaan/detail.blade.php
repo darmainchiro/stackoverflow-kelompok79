@@ -1,6 +1,8 @@
 @extends('adminlte.master')
 @section('title-page','Detail Pertanyaan')
-
+@push('script-head')
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+@endpush
 
 @section('content')
 <div class="container">
@@ -13,7 +15,17 @@
     <div class="row p-3">
         <div class="col-md-1 text-center mt-auto mb-auto" >
                 <a href="/questions/upvote/{{$question->id}}"><i class="fas fa-caret-up" style="font-size: 3.5em;"></i></a>
-                <span class="d-block" style="font-size: 1.5em; margin-top: -10px; margin-bottom: -10px">{{$vote}}</span>
+                <span class="d-block" style="font-size: 1.5em; margin-top: -10px; margin-bottom: -10px">
+                @php
+                    $voteQuestion = 0;
+                    foreach($reputasis as $reputasi){
+                        if($question->id == $reputasi->question_id && $reputasi->answer_id == 0){
+                            $voteQuestion += $reputasi->vote;
+                            }
+                      };
+                      echo $voteQuestion;
+                @endphp
+                </span>
                 <a href="/questions/downvote/{{$question->id}}"><i class="fas fa-caret-down" style="font-size: 3.5em;"></i></a>
             </div>
         <div class="col-md-11 border-left pl-4">
@@ -57,17 +69,33 @@
         @foreach ($answers as $answer)
         <div class="row mt-4">
             <div class="col-md-1 text-center" >
-                <i class="fas fa-caret-up" style="font-size: 2.5em;"></i>
-                <span class="d-block" style="font-size: 1.5em; margin-top: -10px; margin-bottom: -10px">0</span>
-                <i class="fas fa-caret-down" style="font-size: 2.5em;"></i>
+                <a href="/answers/upvote/{{$answer->id}}/{{$question->id}}"><i class="fas fa-caret-up" style="font-size: 2.5em;"></i></a>
+                <span class="d-block" style="font-size: 1.5em; margin-top: -10px; margin-bottom: -10px">
+                    @php
+                    $voteAnswer = 0;
+                    foreach($reputasis as $reputasi){
+                        if($question->id == $reputasi->question_id && $reputasi->answer_id == $answer->id){
+                            $voteAnswer += $reputasi->vote;
+                            }
+                      };
+                      echo $voteAnswer;
+                @endphp
+                </span>
+                <a href="/answers/downvote/{{$answer->id}}/{{$question->id}}"><i class="fas fa-caret-down" style="font-size: 2.5em;"></i></a>
             </div>
             <div class="col-md-11 p-2 badge-secondary">
-                <div class="mb-4">
-                    <p>{{$answer->content}}</p>
+                <div class="mb-5">
+                    <p class="float-left">{{$answer->content}}</p> 
+                    @if($answer->best_answer > 0)
+                        <span class="float-right"><i class="fa fa-star-o text-warning" style="font-size:36px"></i></span>
+                    @endif
                 </div>
-                <div class="justify-content-end pr-3">
+                <div class="justify-content-end pr-3" style="clear: both;">
                    <div class="float-left komentar">
                        komentar
+                       @if ($answer->user_id == Auth::id())
+                                <a class="badge-" href=""> best jawaban</a>
+                       @endif
 
                    </div>
                    <div class="float-right">

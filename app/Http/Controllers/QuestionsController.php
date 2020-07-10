@@ -76,7 +76,7 @@ class QuestionsController extends Controller
      * @param  \App\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function show(Question $question)
+    public static function show(Question $question)
     {
           
           $answers = DB::table('answers')
@@ -84,18 +84,11 @@ class QuestionsController extends Controller
             ->select('answers.*', 'users.name as name')
             ->get();
           $comments = DB::table('answer_comment')->get();
-          $reputasis = DB::table('reputasions')->where('question_id',$question->id)->get();
-          // dd($reputasis);
-          if(count($reputasis) == 0) {
-            $reputasi = 0;
-          }
-          $vote = 0;
-          foreach($reputasis as $reputasi){
-            $vote += $reputasi->vote;
-          }
-          // dd($vote);
-          // dd($reputasi);
-        return view('pertanyaan.detail', compact('question','answers','comments','reputasi','vote'));
+          $reputasis = DB::table('reputasions')
+                        ->where('question_id',$question->id)
+                        ->get();
+          
+        return view('pertanyaan.detail', compact('question','answers','comments','reputasis'));
     }
 
     /**

@@ -12,7 +12,7 @@ class ReputasionsController extends Controller
 {
 
 
-    public function upvote($id)
+    public function upVoteQuestion($id)
     {
         $userId = DB::table('questions')->where('id',$id)->first();
         $userId = $userId->user_id;
@@ -24,8 +24,6 @@ class ReputasionsController extends Controller
                         ->where('question_id','=',$id)
                         ->first();
                         // dd($data);
-            
-    
         if($data != null) {
             if( $data->vote == 1){
                 return redirect('questions/'.$id)->with('error','Anda hanya dapat melakukan sekali seumur hidup :(');
@@ -34,6 +32,7 @@ class ReputasionsController extends Controller
                 DB::table('reputasions')
                         ->where('user_id','=',Auth::id())
                         ->where('question_id','=',$id)
+                        ->where('answer_id', 0)
                         ->update(['vote' => 1]);
                 return redirect('questions/'.$id);
             } 
@@ -41,12 +40,12 @@ class ReputasionsController extends Controller
         DB::table('reputasions')->insert([
                 'question_id' => $id,
                 'user_id' => Auth::id(),
-                'vote' => 1.
+                'vote' => 1
             ]);
             DB::table('user_points')->insert(['user_id' => $userId,'point'=> 10]);
         return redirect('questions/'.$id);  
     }
-    public function downvote($id)
+    public function downVoteQuestion($id)
     {
         $userId = DB::table('questions')->where('id',$id)->first();
         $userId = $userId->user_id;
@@ -60,6 +59,7 @@ class ReputasionsController extends Controller
                 DB::table('reputasions')
                         ->where('user_id','=',Auth::id())
                         ->where('question_id','=',$id)
+                        ->where('answer_id', 0)
                         ->update(['vote' => -1]);
                 DB::table('user_points')->insert(['user_id' => $userId,'point'=> -11]);
                 return redirect('questions/'.$id);
@@ -75,6 +75,88 @@ class ReputasionsController extends Controller
         DB::table('user_points')->insert(['user_id' => $userId,'point'=> -1]);
         return redirect('questions/'.$id);
     }
+
+    public function upVoteAnswer($id, $question_id)
+    {
+        $data = DB::table('answers')->where('id',$id)->first();
+        $userId = $data->user_id;
+        if( $userId == Auth::id()){
+            return redirect('questions/' . $data->question_id)->with('error','sebagai pembuat anda tidak dapat down pertanyaan anda sendiri');
+        }
+        $dataReputasi = DB::table('reputasions')
+                        ->where('user_id','=',Auth::id())
+                        ->where('answer_id','=',$id)
+                        ->first();
+                        // dd($data);
+            
+        
+        if($dataReputasi != null) {
+            if( $dataReputasi->vote == 1){
+                return redirect('questions/' . $dataReputasi->question_id)->with('error','Anda hanya dapat melakukan sekali seumur hidup :(');
+            } else if( $dataReputasi->vote == -1){
+                DB::table('user_points')->insert(['user_id' => $userId,'point'=> 11]);
+                DB::table('reputasions')
+                        ->where('user_id',Auth::id())
+                        ->where('question_id',$question_id)
+                        ->where('answer_id', $id)
+                        ->update(['vote' => 1]);
+
+                return redirect('questions/' . $data->question_id);
+            } 
+        }
+        DB::table('reputasions')->insert([
+                'answer_id' => $id,
+                'question_id' =>  $data->question_id,
+                'user_id' => Auth::id(),
+                'vote' => 1
+            ]);
+            DB::table('user_points')->insert(['user_id' => $userId,'point'=> 10]);
+        return redirect('questions/' . $data->question_id);
+    }
+
+
+     public function downVoteAnswer($id, $question_id)
+    {
+        $data = DB::table('answers')->where('id',$id)->first();
+        $userId = $data->user_id;
+        if( $userId == Auth::id()){
+            return redirect('questions/' . $data->question_id)->with('error','sebagai pembuat anda tidak dapat down pertanyaan anda sendiri');
+        }
+        $dataReputasi = DB::table('reputasions')
+                        ->where('user_id','=',Auth::id())
+                        ->where('answer_id','=',$id)
+                        ->first();
+                        // dd($data);
+            
+    
+        if($dataReputasi != null) {
+            if( $dataReputasi->vote == -1){
+                return redirect('questions/' . $dataReputasi->question_id)->with('error','Anda hanya dapat melakukan sekali seumur hidup :(');
+            } else if( $dataReputasi->vote == 1){
+                DB::table('user_points')->insert(['user_id' => $userId,'point'=> -11]);
+                DB::table('reputasions')
+                        ->where('user_id','=',Auth::id())
+                        ->where('question_id','=', $question_id)
+                        ->where('answer_id', $id)
+                        ->update(['vote' => -1]);
+                return redirect('questions/' . $data->question_id);
+            } 
+        }
+        DB::table('reputasions')->insert([
+                'answer_id' => $id,
+                'question_id' =>  $data->question_id,
+                'user_id' => Auth::id(),
+                'vote' => -1
+            ]);
+            DB::table('user_points')->insert(['user_id' => $userId,'point'=> 10]);
+        return redirect('questions/' . $data->question_id);
+    }
+
+
+
+
+
+
     /**
      * Display a listing of the resource.
      *

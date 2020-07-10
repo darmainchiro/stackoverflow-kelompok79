@@ -15,6 +15,7 @@ class CreateReputasionsTable extends Migration
     {
         Schema::create('reputasions', function (Blueprint $table) {
            $table->unsignedBigInteger('question_id');
+           $table->unsignedBigInteger('answer_id')->default(0);
            $table->unsignedBigInteger('user_id');
 
            $table->integer('vote')->default(0);
