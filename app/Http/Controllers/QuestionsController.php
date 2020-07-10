@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Question;
 use App\Answer;
+use App\Http\Controllers\ReputasionsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -77,8 +78,24 @@ class QuestionsController extends Controller
      */
     public function show(Question $question)
     {
-        $question->comments;
-        return view('pertanyaan.detail', compact('question'));
+          
+          $answers = DB::table('answers')
+            ->join('users', 'users.id', '=', 'answers.user_id')
+            ->select('answers.*', 'users.name as name')
+            ->get();
+          $comments = DB::table('answer_comment')->get();
+          $reputasis = DB::table('reputasions')->where('question_id',$question->id)->get();
+          // dd($reputasis);
+          if(count($reputasis) == 0) {
+            $reputasi = 0;
+          }
+          $vote = 0;
+          foreach($reputasis as $reputasi){
+            $vote += $reputasi->vote;
+          }
+          // dd($vote);
+          // dd($reputasi);
+        return view('pertanyaan.detail', compact('question','answers','comments','reputasi','vote'));
     }
 
     /**

@@ -20,7 +20,6 @@ class CreateQuestionsTable extends Migration
             $table->string('title');
             $table->text('content');
             $table->string('tags');
-            $table->integer('vote')->default(0);
             $table->timestamps();
 
 

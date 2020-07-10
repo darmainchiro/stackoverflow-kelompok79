@@ -14,11 +14,13 @@ class CreateAnswerCommentTable extends Migration
     public function up()
     {
         Schema::create('answer_comment', function (Blueprint $table) {
+            $table->unsignedBigInteger('question_id');
             $table->unsignedBigInteger('answer_id');
             $table->unsignedBigInteger('user_id');
 
             $table->text('comment');
 
+            $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
             $table->foreign('answer_id')->references('id')->on('answers')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 

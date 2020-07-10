@@ -1,4 +1,5 @@
-@extends('adminlte.master') @section('title-page','Buat Pertanyaan') @push('script-head')
+@extends('adminlte.master') @section('title-page','Buat Pertanyaan') 
+@push('script-head')
 <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
 @endpush @section('content')
 
@@ -16,7 +17,7 @@
                 </div>
                 <div class="form-group">
                     <label for="content">Isi Pertanyaan</label>
-                    <textarea name="content"
+                    s<textarea name="content"
                         class="form-control my-editor p-2">{!! old('content', $content ?? '') !!}</textarea>
 
                 </div>

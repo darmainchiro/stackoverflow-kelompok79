@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Answer;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AnswersController extends Controller
 {
@@ -14,7 +16,8 @@ class AnswersController extends Controller
      */
     public function index()
     {
-        //
+        $answers = Answer::all();
+        dd($answers);       
     }
 
     /**
@@ -33,16 +36,16 @@ class AnswersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
          Answer::create([
             'user_id' => Auth::id(),
-            'question_id' => $request->title,
+            'question_id' => $id,
             'content' => $request->content,
             'vote' => 0,
             'best_answer' => false,
         ]);
-         return 'berhasil';
+         return redirect('questions/'.$id);
     }
 
     /**
@@ -88,5 +91,17 @@ class AnswersController extends Controller
     public function destroy(Answer $answer)
     {
         //
+    }
+    public function comment(Request $request)
+    {
+        $data = $request->all();
+
+        DB::table('answer_comment')->insert([
+                'question_id' => $request->question_id,
+                'answer_id' => $request->answer_id,
+                'user_id' => Auth::id(),
+                'comment' => $request->comment,
+        ]);
+        return redirect('questions' . '/' . $request->question_id);
     }
 }

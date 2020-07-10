@@ -20,15 +20,22 @@ Route::group(['middleware' => 'auth'], function () {
 Route::get('questions/comment/{id}', 'QuestionsController@getComment')->name('questions.comment.index');
 Route::post('questions/comment/{id}', 'QuestionsController@createComment')->name('questions.comment.store');
 
+Route::get('/questions/upvote/{question_id}','ReputasionsController@upvote');
+Route::get('/questions/downvote/{question_id}','ReputasionsController@downvote');
+
 Route::get('questions/data', 'DataController@questions')->name('questions.data');
 Route::resource('questions', 'QuestionsController');
+Route::post('/answers/comment','AnswersController@comment');
 
-
-Route::post('/answers/store', 'AnswersController@store');
+Route::post('/answers/{id}/store', 'AnswersController@store');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+
+
 
 
 // UNISHAR CKEDITOR
