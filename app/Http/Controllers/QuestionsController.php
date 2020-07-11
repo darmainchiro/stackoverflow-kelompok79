@@ -29,7 +29,9 @@ class QuestionsController extends Controller
     {
 
         $questions = Question::getAll();
-        return view('pertanyaan.index', compact('questions'));
+        $reputasis = Reputasion::getAll();
+        $answers = DB::table('answers')->get();
+        return view('pertanyaan.index', compact('questions','answers','reputasis'));
     }
 
     /**
@@ -82,6 +84,7 @@ class QuestionsController extends Controller
           $answers = DB::table('answers')
             ->join('users', 'users.id', '=', 'answers.user_id')
             ->select('answers.*', 'users.name as name')
+            ->where('question_id',$question->id)
             ->get();
           $comments = Comment::getAll();
           $reputasis = Reputasion::getOne('question_id',$question->id);

@@ -42,20 +42,17 @@
 
                     <p>
                         {{ Auth::user()->name }}
-                        <small>Member since Nov. 2012</small>
+                        <small>Member sejak {{ substr(Auth::user()->created_at,0,4) }}</small>
                     </p>
                 </li>
                 <!-- Menu Body -->
                 <li class="user-body">
                     <div class="row">
-                        <div class="col-4 text-center">
+                        <div class="col-6 text-center">
+                            <a href="profile/{{Auth::user()->name}}">Profile</a>
+                        </div>
+                        <div class="col-6 text-center">
                             <a href="#">Followers</a>
-                        </div>
-                        <div class="col-4 text-center">
-                            <a href="#">Sales</a>
-                        </div>
-                        <div class="col-4 text-center">
-                            <a href="#">Friends</a>
                         </div>
                     </div>
                     <!-- /.row -->

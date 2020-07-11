@@ -12,4 +12,8 @@ class comment extends Model
     	$result = DB::table('answer_comment')->get();
     	return $result;
     }
+    public static function getIf($question_id)
+    {
+    	$result = DB::table('answer_comment')->where('question_id',$question_id)->get();
+    }
 }

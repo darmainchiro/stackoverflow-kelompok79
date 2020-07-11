@@ -2,15 +2,37 @@
 @section('title-page','Daftar Pertanyaan')
 @section('content')
 <div class="container">
-    @foreach( $questions as $question)
+    @foreach( $questions as $key => $question)
     <div class="row p-2">
         <div class="col-md-2 d-flex justify-content-center text-center mt-auto mb-auto">
             <div class="mr-2">
-                <span class="d-block">0</span>
-                <span>vore</span>
+                <span class="d-block">
+                        @php
+                            $nilai = 0;
+                                foreach($reputasis as $reputasi){
+                                    if($reputasi->question_id == $question->id)
+                                    {
+                                        $nilai++;
+                                    }
+                                }
+                                echo $nilai;
+                            @endphp
+                </span>
+                <span>vote</span>
             </div>
             <div class="ml-2">
-                <span class="d-block">0</span>
+                <span class="d-block">
+                    @php
+                    $nilai = 0;
+                        foreach($answers as $answer){
+                            if($answer->question_id == $question->id)
+                            {
+                                $nilai++;
+                            }
+                        }
+                        echo $nilai;
+                    @endphp
+                </span>
                 <span>jawaban</span>
             </div>
 

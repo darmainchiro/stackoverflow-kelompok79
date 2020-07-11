@@ -12,4 +12,10 @@ class Reputasion extends Model
     	$result = DB::table('reputasions')->where($kolom,$acuan)->get();
     	return $result;
     }
+    public static function getAll()
+    {
+    	$result = DB::table('reputasions')->get();
+    	return $result;
+    }
 }
+
