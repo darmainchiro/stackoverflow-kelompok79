@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Question;
 use App\Answer;
+use App\Comment;
+use App\Reputasion;
 use App\Http\Controllers\ReputasionsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,9 +23,7 @@ class QuestionsController extends Controller
     public function index()
     {
 
-        $questions = DB::table('questions')
-                    ->get();
-        // dd($questions);
+        $questions = Question::getAll();
         return view('pertanyaan.index', compact('questions'));
     }
 
@@ -45,6 +45,7 @@ class QuestionsController extends Controller
      */
     public function store(Request $request)
     {
+        
         $this->validate($request, [
             'title' => 'required',
             'content' => 'required',
@@ -52,26 +53,14 @@ class QuestionsController extends Controller
         ]);
 
         $user = Auth::user();
-        $waktu = time();
-        // ! Cara pertama
+
         Question::create([
             'title' => $request->title,
             'content' => $request->content,
             'user_id' => $user['id'],
             'tags' => $request->tags,
-            'waktu_buat' => $waktu
+            'waktu_buat' => time()
         ]);
-
-        // // ! Cara kedua
-        // $question = new Question;
-        // $question->title = $request->title;
-        // $question->content = $request->content;
-        // $question->tags = $request->tags;
-        // // $question->user_id = $user['id']; // Ini cara biasa buat hubungin fk si user
-        // $question->user()->associate($user); // Ini cara kalo menggunakan eloquent relationship yg sifatnya "belongs to"
-        // $question->save();
-
-
 
         return redirect()->route('questions.index')->with('success', 'Data berhasil disimpan');
     }
@@ -89,18 +78,13 @@ class QuestionsController extends Controller
             ->join('users', 'users.id', '=', 'answers.user_id')
             ->select('answers.*', 'users.name as name')
             ->get();
-          $comments = DB::table('answer_comment')->get();
-          $reputasis = DB::table('reputasions')
-                        ->where('question_id',$question->id)
-                        ->get();
-          // dump($question);
+          $comments = Comment::getAll();
+          $reputasis = Reputasion::getOne('question_id',$question->id);
           $questions = DB::table('questions')
                         ->where('questions.id', $question->id)
                         ->join('users','questions.user_id', 'users.id')
                         ->select('questions.*','users.name as name','users.point as point')
                         ->first();
-        // dd($questions[0]->created_at);||
-                        // dd($questions);
         return view('pertanyaan.detail', compact('questions','answers','comments','reputasis'));
     }
 

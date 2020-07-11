@@ -28,8 +28,7 @@ class ReputasionsController extends Controller
         $data = DB::table('reputasions')
                         ->where('user_id','=',Auth::id())
                         ->where('question_id','=',$id)
-                        ->first();
-                        // dd($data);
+                        ->first();              
         if($data != null) {
             if( $data->vote == 1){
                 return redirect('questions/'.$id)->with('error','Anda hanya dapat melakukan sekali seumur hidup :(');
@@ -68,7 +67,7 @@ class ReputasionsController extends Controller
                         ->where('user_id','=',Auth::id())
                         ->where('question_id',  $id)
                         ->first();
-        // dd($data);
+
         if($data != null) {
             if( $data->vote == 1){
                 DB::table('reputasions')
@@ -77,10 +76,10 @@ class ReputasionsController extends Controller
                         ->where('answer_id', 0)
                         ->update(['vote' => -1]);
                 $user->update(['point' => $point - 11]);
-                // dd(3);
+
                 return redirect('questions/'.$id);
             } else if( $data->vote == -1){
-                // dd(1);
+
                  return redirect('questions/'.$id)->with('error','Anda hanya dapat melakukan sekali seumur hidup :(');
             } 
         }
@@ -104,7 +103,7 @@ class ReputasionsController extends Controller
         $data = $user->first();
         $point = $data->point;
                         
-        // dd($data);
+
         $userId = $data->user_id;
         if( $userId == Auth::id()){
             return redirect('questions/' . $data->question_id)->with('error','sebagai pembuat anda tidak dapat down pertanyaan anda sendiri');
@@ -113,7 +112,7 @@ class ReputasionsController extends Controller
                         ->where('user_id','=',Auth::id())
                         ->where('answer_id','=',$id)
                         ->first();
-                        // dd($data);
+
             
         
         if($dataReputasi != null) {
@@ -136,7 +135,7 @@ class ReputasionsController extends Controller
                 'user_id' => Auth::id(),
                 'vote' => 1
             ]);
-        $user->update(['point' => 10]);
+        $user->update(['point' => $point + 10]);
         return redirect('questions/' . $data->question_id);
     }
 
@@ -160,14 +159,13 @@ class ReputasionsController extends Controller
                         ->where('user_id','=',Auth::id())
                         ->where('answer_id','=',$id)
                         ->first();
-                        // dd($data);
+
             
     
         if($dataReputasi != null) {
             if( $dataReputasi->vote == -1){
                 return redirect('questions/' . $dataReputasi->question_id)->with('error','Anda hanya dapat melakukan sekali seumur hidup :(');
             } else if( $dataReputasi->vote == 1){
-                // DB::table('user_points')->insert(['user_id' => $userId,'point'=> -11]);
                 $user->update(['point' => $point - 11]);
                 DB::table('reputasions')
                         ->where('user_id','=',Auth::id())
@@ -183,90 +181,15 @@ class ReputasionsController extends Controller
                 'user_id' => Auth::id(),
                 'vote' => -1
             ]);
-            // DB::table('user_points')->insert(['user_id' => $userId,'point'=> 10]);
-        $user->update(['point' => $point -1]);
+        $user->update(['point' => $point - 1]);
         return redirect('questions/' . $data->question_id);
     }
 
-
-
-
-
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public static function get()
     {
         $data = DB::table('reputasions')->get();
         return $data;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Reputasion  $reputasion
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Reputasion $reputasion)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Reputasion  $reputasion
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Reputasion $reputasion)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Reputasion  $reputasion
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Reputasion $reputasion)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Reputasion  $reputasion
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Reputasion $reputasion)
-    {
-        //
-    }
+  
 }

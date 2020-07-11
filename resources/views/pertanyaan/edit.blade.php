@@ -17,21 +17,20 @@
 
                 <div class="form-group">
                     <label for="title">Judul Pertanyaan</label>
-                    <input type="text" name="title" id="title" placeholder="masukan title" class="form-control p-2"
-                        value="{{$question->title}}">
+                    <input type="text" name="title" id="title" placeholder="masukan title" class="form-control p-2 @error('title') is-invalid @enderror" value="{{$question->title}}">
+                    @error('title') <div class="invalid-feedback">{{$message}}</div>  @enderror
                 </div>
                 <div class="form-group">
                     <label for="content">Isi Jawaban</label>
-                    <textarea name="content" class="form-control my-editor p-2">{{$question->content}}</textarea>
+                    <textarea name="content" class="form-control my-editor p-2 @error('content') is-invalid @enderror">{{$question->content}}</textarea>
+                    @error('content') <div class="invalid-feedback">{{$message}}</div>  @enderror
                 </div>
 
                 <div class="form-group">
                     <label for="tag">Tag</label>
-                    <input type="text" name="tags" placeholder="Tulis tag disini" class="form-control p-2"
-                        value="{{ $question->tags }}">
-                    <small class="form-text text-muted">Gunakan tanda "," sebagai pemisah tag. <b>Contoh: laravel,
-                            lumen,
-                            liveware</b></small>
+                    <input type="text" name="tags" placeholder="Tulis tag disini" class="form-control p-2 @error('tags') is-invalid @enderror" value="{{ $question->tags }}">
+                    <small class="form-text text-muted">Gunakan tanda "," sebagai pemisah tag. <b>Contoh: laravel,lumen,liveware</b></small>
+                    @error('tags') <div class="invalid-feedback">{{$message}}</div>  @enderror
                 </div>
                 <button type="submit" class="btn btn-primary">Simpan</button>
             </form>

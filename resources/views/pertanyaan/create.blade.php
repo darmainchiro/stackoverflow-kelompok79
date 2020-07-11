@@ -13,20 +13,20 @@
                 @csrf
                 <div class="form-group">
                     <label for="title">Judul Pertanyaan</label>
-                    <input type="text" name="title" id="title" placeholder="Judul Pertanyaan" class="form-control p-2">
+                    <input type="text" name="title" id="title" placeholder="Judul Pertanyaan" class="form-control p-2 @error('title') is-invalid @enderror" value="{{old('title')}}">
+                    @error('title') <div class="invalid-feedback">{{$message}}</div> @enderror
                 </div>
                 <div class="form-group">
                     <label for="content">Isi Pertanyaan</label>
-                    <textarea name="content"
-                        class="form-control my-editor p-2"></textarea>
+                    <textarea name="content" class="form-control my-editor p-2 @error('content') is-invalid @enderror">{{old('content')}}</textarea>
+                    @error('title') <div class="invalid-feedback">{{$message}}</div> @enderror
 
                 </div>
                 <div class="form-group">
                     <label for="tag">Tag</label>
-                    <input type="text" name="tags" placeholder="Tulis tag disini" class="form-control p-2">
-                    <small class="form-text text-muted">Gunakan tanda "," sebagai pemisah tag. <b>Contoh: laravel,
-                            lumen,
-                            liveware</b></small>
+                    <input type="text" name="tags" placeholder="Tulis tag disini" class="form-control p-2 @error('tags') is-invalid @enderror">
+                    @error('title') <div class="invalid-feedback">{{$message}}</div> @enderror
+                    <small class="form-text text-muted">Gunakan tanda "," sebagai pemisah tag. <b>Contoh: laravel,lumen,liveware</b></small>
                 </div>
                 <button type="submit" class="btn btn-primary">Buat Pertanyaan</button>
             </form>

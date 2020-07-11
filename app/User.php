@@ -6,6 +6,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+use Illuminate\Support\Facades\DB;
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -45,5 +47,14 @@ class User extends Authenticatable
     public function comments()
     {
         return $this->belongsToMany(Question::class, 'question_comment', 'user_id', 'question_id')->withPivot('comment')->withTimestamps();
+    }
+    public static function updateOne($data,$id)
+    {
+        DB::table('users')->where('id',$id)->update($data);
+    }
+    public static function get($id)
+    {
+        $result = DB::table('users')->where('id',$id)->first();
+        return $result;
     }
 }

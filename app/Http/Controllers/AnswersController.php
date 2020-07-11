@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Answer;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -108,7 +109,24 @@ class AnswersController extends Controller
     }
     public function bestAnswer($id,$questionId)
     {
-        DB::table('answers')->where('id',$id)->update(['best_answer' => 1]);
+        $answer = Answer::get($id);
+        $user = User::get($answer->user_id);
+        $point = $user->point;
+
+        if($answer->best_answer == 1){
+
+            Answer::updateOne(['best_answer' => 0],$id);
+            User::updateOne(['point' => $point - 15],$answer->user_id);
+            return redirect('/questions/' . $questionId);
+        } else if($answer->best_answer == 0){
+            Answer::updateOne(['best_answer' => 1],$id);
+            User::updateOne(['point' => $point + 15],$answer->user_id);
+            return redirect('/questions/' . $questionId);
+        } else {
+            return redirect('/questions/' . $questionId);
+        }
+    
+        
         return redirect('/questions/' . $questionId);
     }
 }

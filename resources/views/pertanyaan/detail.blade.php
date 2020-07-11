@@ -14,8 +14,6 @@
         </div>
 
     </div>
-    <h1>{{$questions->name}}</h1>
-    <h1>{{$questions->point}}</h1>
     <div class="row p-3">
         <div class="col-md-1 text-center mt-auto mb-auto" >
                 <a href="/questions/upvote/{{$questions->id}}"><i class="fas fa-caret-up" style="font-size: 3.5em;"></i></a>
@@ -53,7 +51,7 @@
                     <form action="{{ route('questions.destroy', $questions->id) }}" method="post" class="d-inline">
                         @csrf
                         @method('delete')
-                        <button type="submit" class="badge badge-danger border-none border p-2">DELETE</button>
+                        <button type="submit" class="badge badge-danger border-none border p-2">Hapus</button>
                     </form>
                     <a href="{{ route('questions.edit', $questions->id) }}" class="badge badge-warning p-2">EDIT</a>
                     @endif
@@ -63,7 +61,7 @@
         </div>
     </div>
     <div class="pl-4 mt-2 mb-1 ">
-            <h5><span>0 </span>Jawaban</h5>
+            <h5><span>{{count($answers)}} </span>Jawaban</h5>
     </div>
     @foreach ($answers as $answer)
    <section class="jawaban">
@@ -99,8 +97,10 @@
                 <div class="justify-content-end pr-3" style="clear: both;">
                     <div class="float-left">
                         <span class="klikJawaban">komentar</span>
-                           @if ($questions->user_id == Auth::id())
-                                    <a class="badge-" href="/answer/best-answer/{{$answer->id}}/{{$questions->id}}"> jawaban terbaik</a>
+                           @if ($questions->user_id == Auth::id() && $answer->best_answer == 0)
+                                    <a class="badge-" href="/answer/best-answer/{{$answer->id}}/{{$questions->id}}"> Vote jawaban terbaik</a>
+                            @elseif ($questions->user_id == Auth::id() && $answer->best_answer == 1)
+                                    <a class="badge-" href="/answer/best-answer/{{$answer->id}}/{{$questions->id}}"> Batalkan Vote</a>
                            @endif
                     </div>                   
                 </div>
