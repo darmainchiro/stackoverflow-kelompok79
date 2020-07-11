@@ -29,7 +29,7 @@
 @endsection
 
 @push('scripts')
-@include('adminlte.partials.alert')
+<!-- @include('adminlte.partials.alert') -->
 <script>
     $(function () {
         $('#questions-table').DataTable({

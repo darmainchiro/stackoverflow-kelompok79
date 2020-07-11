@@ -17,8 +17,8 @@
                 </div>
                 <div class="form-group">
                     <label for="content">Isi Pertanyaan</label>
-                    s<textarea name="content"
-                        class="form-control my-editor p-2">{!! old('content', $content ?? '') !!}</textarea>
+                    <textarea name="content"
+                        class="form-control my-editor p-2"></textarea>
 
                 </div>
                 <div class="form-group">

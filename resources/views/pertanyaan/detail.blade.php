@@ -2,6 +2,7 @@
 @section('title-page','Detail Pertanyaan')
 @push('script-head')
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
 @endpush
 
 @section('content')
@@ -41,15 +42,6 @@
                     }
                 @endphp
             </div>
-
-            <div class="my-2">
-                List komen:
-                <ul>
-                    @foreach ($question->comments as $data)
-                    <li>{{ $data->pivot->comment }}</li>
-                    @endforeach
-                </ul>
-            </div>
             <div>
                 <p>
                     @if (Auth::id() == $question->user_id)
@@ -66,9 +58,12 @@
         </div>
     </div>
    <section class="answers">
+        <div class="pl-4 mt-2 mb-1 ">
+            <h5><span>0 </span>Jawaban</h5>
+        </div>
         @foreach ($answers as $answer)
-        <div class="row mt-4">
-            <div class="col-md-1 text-center" >
+        <div class="row mt-4 pl-2">
+            <div class="col-md-1 text-center offset-md-1" >
                 <a href="/answers/upvote/{{$answer->id}}/{{$question->id}}"><i class="fas fa-caret-up" style="font-size: 2.5em;"></i></a>
                 <span class="d-block" style="font-size: 1.5em; margin-top: -10px; margin-bottom: -10px">
                     @php
@@ -83,36 +78,39 @@
                 </span>
                 <a href="/answers/downvote/{{$answer->id}}/{{$question->id}}"><i class="fas fa-caret-down" style="font-size: 2.5em;"></i></a>
             </div>
-            <div class="col-md-11 p-2 badge-secondary">
-                <div class="mb-5">
-                    <p class="float-left">{{$answer->content}}</p> 
+            <div class="col-md-10 p-2 border-left">
+                <div class="float-left">
+                        <h5>{{$answer->name}}</h5>
+                </div>
+                <div class="float-right">
+                    <span>waktu</span>                    
                     @if($answer->best_answer > 0)
-                        <span class="float-right"><i class="fa fa-star-o text-warning" style="font-size:36px"></i></span>
+                        <span class="float-"><i class="fa fa-star-o text-warning" style="font-size:36px"></i></span>
                     @endif
                 </div>
+                <div class="mb-5" style="clear: both;">
+                    <p class="">{!! $answer->content !!}</p> 
+                </div>
                 <div class="justify-content-end pr-3" style="clear: both;">
-                   <div class="float-left komentar">
-                       komentar
-                       @if ($answer->user_id == Auth::id())
-                                <a class="badge-" href=""> best jawaban</a>
-                       @endif
-
-                   </div>
-                   <div class="float-right">
-                        dijawab oleh <span>{{$answer->name}}</span>
-                   </div>
+                    <div class="float-left">
+                        <a href="">komentar</a>
+                           @if ($answer->user_id == Auth::id())
+                                    <a class="badge-" href=""> jawaban terbaik</a>
+                           @endif
+                    </div>                   
                 </div>
             </div>
         </div>  
         @foreach ($comments as $comment)
             @if ($comment->answer_id == $answer->id)
                 <div class="row mt-2">
-                    <div class="col-md-10 offset-md-2 bg-primary p-3">
-                        <div >
-                            {{$comment->comment}}
+                    <div class="col-md-9 offset-md-3 p-3">
+                        <div>
+                            <h6 class="float-left">Ardi</h6>
+                            <span class="float-right">waktu</span>
                         </div>
-                        <div class="float-right">
-                            komentar dari
+                        <div style="clear: both;">
+                            {{$comment->comment}}
                         </div>
                     </div>
                 </div>
@@ -133,27 +131,15 @@
         </div>  
     @endforeach  
    </section>
-    <div class="row">
-        <div class="col">
-            <form action="{{ route('questions.comment.store', $question->id) }}" method="post">
-                @csrf
-                <div class="form-group">
-                    <label>Beri komen ke pertanyaan</label>
-                    <textarea class="form-control" placeholder="Komen Kamu ..." class="p-3" name="comment"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary btn-sm">Tambahkan komen</button>
-            </form>
-        </div>
-    </div>
 
     <div class="row mt-4">
-        <div class="col">
+        <div class="col-md p-5">
             <form action="/answers/{{$question->id}}/store" method="post">
                 @csrf
 
                 <div class="form-group">
                     <label>Jawaban Kamu</label>
-                    <textarea class="form-control" placeholder="Jawaban Kamu ..." class="p-3" name="content"></textarea>
+                    <textarea name="content" class="form-control my-editor p-2"></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary btn-sm">Kirim Jawaban</button>
             </form>
@@ -164,5 +150,42 @@
 
 @push('scripts')
 @include('adminlte.partials.alert')
+<script>
+    var editor_config = {
+        path_absolute: "/",
+        selector: "textarea.my-editor",
+        plugins: [
+            "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+            "searchreplace wordcount visualblocks visualchars code fullscreen",
+            "insertdatetime media nonbreaking save table contextmenu directionality",
+            "emoticons template paste textcolor colorpicker textpattern"
+        ],
+        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media",
+        relative_urls: false,
+        file_browser_callback: function(field_name, url, type, win) {
+            var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName(
+                'body')[0].clientWidth;
+            var y = window.innerHeight || document.documentElement.clientHeight || document
+                .getElementsByTagName('body')[0].clientHeight;
 
+            var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
+            if (type == 'image') {
+                cmsURL = cmsURL + "&type=Images";
+            } else {
+                cmsURL = cmsURL + "&type=Files";
+            }
+
+            tinyMCE.activeEditor.windowManager.open({
+                file: cmsURL,
+                title: 'Filemanager',
+                width: x * 0.8,
+                height: y * 0.8,
+                resizable: "yes",
+                close_previous: "no"
+            });
+        }
+    };
+
+    tinymce.init(editor_config);
+</script>
 @endpush
