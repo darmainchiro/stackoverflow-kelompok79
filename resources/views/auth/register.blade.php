@@ -26,12 +26,12 @@
 
   <div class="card">
     <div class="card-body register-card-body">
-      <p class="login-box-msg">Register a new membership</p>
+      <p class="login-box-msg">Daftar Akun Baru</p>
 
       <form action="{{ route('register') }}" method="POST">
       @csrf
         <div class="input-group mb-3">
-          <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required placeholder="Full name">
+          <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required placeholder="Nama Lengkap">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -70,7 +70,7 @@
             @enderror
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" name="password_confirmation" required placeholder="Retype password">
+          <input type="password" class="form-control" name="password_confirmation" required placeholder="Ulangi password">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -80,7 +80,7 @@
         <div class="row">
           <div class="col-8">
             <div class="icheck-primary">
-              <input type="checkbox" id="agreeTerms" name="terms" value="agree">
+              <input type="checkbox" id="agreeTerms" name="terms" class="@error('term') is-invalid @enderror" value="agree" required>
               <label for="agreeTerms">
                I agree to the <a href="#">terms</a>
               </label>
@@ -93,8 +93,8 @@
           <!-- /.col -->
         </div>
       </form>
-
-      <a href="/login" class="text-center">I already have a membership</a>
+      <span>Sudah Punya Akun ?</span>
+      <a href="/login" class="text-center">Login</a>
     </div>
     <!-- /.form-box -->
   </div><!-- /.card -->

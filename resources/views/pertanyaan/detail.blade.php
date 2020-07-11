@@ -197,5 +197,6 @@
         $('.commentForm').hide();
         find('.commentForm').css('display','block');
     });
+    // $().click()
 </script>
 @endpush
