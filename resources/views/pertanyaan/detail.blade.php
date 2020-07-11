@@ -8,82 +8,87 @@
 @section('content')
 <div class="container">
     <div class="row p-3">
+
         <div class="col-md-12">
-            <h1>{{$question->title}}</h1>
+            <h1>{{$questions->title}}</h1>
         </div>
 
     </div>
+    <h1>{{$questions->name}}</h1>
+    <h1>{{$questions->point}}</h1>
     <div class="row p-3">
         <div class="col-md-1 text-center mt-auto mb-auto" >
-                <a href="/questions/upvote/{{$question->id}}"><i class="fas fa-caret-up" style="font-size: 3.5em;"></i></a>
+                <a href="/questions/upvote/{{$questions->id}}"><i class="fas fa-caret-up" style="font-size: 3.5em;"></i></a>
                 <span class="d-block" style="font-size: 1.5em; margin-top: -10px; margin-bottom: -10px">
                 @php
                     $voteQuestion = 0;
                     foreach($reputasis as $reputasi){
-                        if($question->id == $reputasi->question_id && $reputasi->answer_id == 0){
+                        if($questions->id == $reputasi->question_id && $reputasi->answer_id == 0){
                             $voteQuestion += $reputasi->vote;
                             }
                       };
                       echo $voteQuestion;
                 @endphp
                 </span>
-                <a href="/questions/downvote/{{$question->id}}"><i class="fas fa-caret-down" style="font-size: 3.5em;"></i></a>
+                <a href="/questions/downvote/{{$questions->id}}"><i class="fas fa-caret-down" style="font-size: 3.5em;"></i></a>
             </div>
         <div class="col-md-11 border-left pl-4">
-            <p>
-                {!! $question->content !!}
+            <h4 class="float-left">{{$questions->name}}</h4>
+            <span class="float-right">{{date('l H:i A',$questions->waktu_buat)}}</span>
+            <p style="clear: both;">
+                {!! $questions->content !!}
             </p>
             <div class="tags">
                 @php
-                    $tags = explode(',', $question->tags);
+                    $tags = explode(',', $questions->tags);
 
                     foreach ($tags as $tag) {
-                         echo "<a href='{$tag}' class='badge badge-info'>{$tag}</a>&nbsp;";
+                         echo "<a href='{$tag}' class='badge badge-info p-1'>{$tag}</a>&nbsp;";
                     }
                 @endphp
             </div>
             <div>
                 <p>
-                    @if (Auth::id() == $question->user_id)
-                    <form action="{{ route('questions.destroy', $question->id) }}" method="post" class="d-inline">
+                    @if (Auth::id() == $questions->user_id)
+                    <form action="{{ route('questions.destroy', $questions->id) }}" method="post" class="d-inline">
                         @csrf
                         @method('delete')
-                        <button type="submit" class="badge badge-secondary">Delete</button>
+                        <button type="submit" class="badge badge-danger border-none border p-2">DELETE</button>
                     </form>
-                    <a href="{{ route('questions.edit', $question->id) }}" class="badge badge-secondary">edit</a>
+                    <a href="{{ route('questions.edit', $questions->id) }}" class="badge badge-warning p-2">EDIT</a>
                     @endif
 
                 </p>
             </div>
         </div>
     </div>
-   <section class="answers">
-        <div class="pl-4 mt-2 mb-1 ">
+    <div class="pl-4 mt-2 mb-1 ">
             <h5><span>0 </span>Jawaban</h5>
-        </div>
-        @foreach ($answers as $answer)
+    </div>
+    @foreach ($answers as $answer)
+   <section class="jawaban">
         <div class="row mt-4 pl-2">
             <div class="col-md-1 text-center offset-md-1" >
-                <a href="/answers/upvote/{{$answer->id}}/{{$question->id}}"><i class="fas fa-caret-up" style="font-size: 2.5em;"></i></a>
+                <a href="/answers/upvote/{{$answer->id}}/{{$questions->id}}"><i class="fas fa-caret-up" style="font-size: 2.5em;"></i></a>
                 <span class="d-block" style="font-size: 1.5em; margin-top: -10px; margin-bottom: -10px">
                     @php
                     $voteAnswer = 0;
                     foreach($reputasis as $reputasi){
-                        if($question->id == $reputasi->question_id && $reputasi->answer_id == $answer->id){
+                        if($questions->id == $reputasi->question_id && $reputasi->answer_id == $answer->id){
                             $voteAnswer += $reputasi->vote;
                             }
                       };
                       echo $voteAnswer;
                 @endphp
                 </span>
-                <a href="/answers/downvote/{{$answer->id}}/{{$question->id}}"><i class="fas fa-caret-down" style="font-size: 2.5em;"></i></a>
+                <a href="/answers/downvote/{{$answer->id}}/{{$questions->id}}"><i class="fas fa-caret-down" style="font-size: 2.5em;"></i></a>
             </div>
             <div class="col-md-10 p-2 border-left">
                 <div class="float-left">
                         <h5>{{$answer->name}}</h5>
                 </div>
                 <div class="float-right">
-                    <span>waktu</span>                    
+                    <span><small>{{ date('l H:i A',$answer->waktu_buat) }}</small></span>                    
                     @if($answer->best_answer > 0)
                         <span class="float-"><i class="fa fa-star-o text-warning" style="font-size:36px"></i></span>
                     @endif
@@ -93,9 +98,9 @@
                 </div>
                 <div class="justify-content-end pr-3" style="clear: both;">
                     <div class="float-left">
-                        <a href="">komentar</a>
-                           @if ($answer->user_id == Auth::id())
-                                    <a class="badge-" href=""> jawaban terbaik</a>
+                        <span class="klikJawaban">komentar</span>
+                           @if ($questions->user_id == Auth::id())
+                                    <a class="badge-" href="/answer/best-answer/{{$answer->id}}/{{$questions->id}}"> jawaban terbaik</a>
                            @endif
                     </div>                   
                 </div>
@@ -103,11 +108,11 @@
         </div>  
         @foreach ($comments as $comment)
             @if ($comment->answer_id == $answer->id)
-                <div class="row mt-2">
+                <div class="row mt-1">
                     <div class="col-md-9 offset-md-3 p-3">
                         <div>
                             <h6 class="float-left">Ardi</h6>
-                            <span class="float-right">waktu</span>
+                            <span class="float-right"><small>{{ date('l H:i A',$comment->waktu_buat) }}</small></span>
                         </div>
                         <div style="clear: both;">
                             {{$comment->comment}}
@@ -117,10 +122,10 @@
             @endif
         @endforeach
         <div class="row">
-            <div class="col-md-8 offset-md-4">
+            <div class="col-md-8 offset-md-4 commentForm" style="display: none;">
                 <form action="/answers/comment" method="post">
                     @csrf
-                    <input type="hidden" name="question_id" value="{{$question->id}}">
+                    <input type="hidden" name="question_id" value="{{$questions->id}}">
                     <input type="hidden" name="answer_id" value="{{$answer->id}}">
                     <div class="form-group">
                         <input type="text" class="form-control" name="comment">
@@ -129,12 +134,11 @@
                 </form>
             </div>
         </div>  
-    @endforeach  
    </section>
-
+    @endforeach 
     <div class="row mt-4">
         <div class="col-md p-5">
-            <form action="/answers/{{$question->id}}/store" method="post">
+            <form action="/answers/{{$questions->id}}/store" method="post">
                 @csrf
 
                 <div class="form-group">
@@ -187,5 +191,11 @@
     };
 
     tinymce.init(editor_config);
+</script>
+<script type="text/javascript">
+    $(document).on('click','.klikJawaban', function(){
+        $('.commentForm').hide();
+        find('.commentForm').css('display','block');
+    });
 </script>
 @endpush

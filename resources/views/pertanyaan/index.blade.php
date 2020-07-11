@@ -1,7 +1,45 @@
 @extends('adminlte.master')
 @section('title-page','Daftar Pertanyaan')
 @section('content')
+<div class="container">
+    @foreach( $questions as $question)
+    <div class="row p-2">
+        <div class="col-md-2 d-flex justify-content-center text-center mt-auto mb-auto">
+            <div class="mr-2">
+                <span class="d-block">0</span>
+                <span>vore</span>
+            </div>
+            <div class="ml-2">
+                <span class="d-block">0</span>
+                <span>jawaban</span>
+            </div>
 
+        </div>
+        <div class="col-md-10 bg-secodndary">
+            <div class="judul">
+                <a href="/questions/{{$question->id}}">
+                    <h4>{{$question->title}}</h4>
+                </a>
+            </div>
+            <div>
+                <div class="tags float-left">
+                    @php
+                        $tags = explode(',',$question->tags);
+
+                        foreach($tags as $tag){
+                            echo "<a href='' class='badge badge-primary mr-2'>$tag</a>&nbsp";
+                            }
+
+
+                    @endphp
+                    
+                </div>
+                <div class="float-right"><small>{{date('l H:i A',$question->waktu_buat)}}</small></div>
+            </div>
+        </div>
+    </div>
+    @endforeach
+</div>
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">

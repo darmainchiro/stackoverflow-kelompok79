@@ -44,6 +44,7 @@ class AnswersController extends Controller
             'content' => $request->content,
             'vote' => 0,
             'best_answer' => false,
+            'waktu_buat' => time()
         ]);
          return redirect('questions/'.$id);
     }
@@ -101,7 +102,13 @@ class AnswersController extends Controller
                 'answer_id' => $request->answer_id,
                 'user_id' => Auth::id(),
                 'comment' => $request->comment,
+                'waktu_buat' => time()
         ]);
         return redirect('questions' . '/' . $request->question_id);
+    }
+    public function bestAnswer($id,$questionId)
+    {
+        DB::table('answers')->where('id',$id)->update(['best_answer' => 1]);
+        return redirect('/questions/' . $questionId);
     }
 }

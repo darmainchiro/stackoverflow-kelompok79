@@ -20,7 +20,11 @@ class QuestionsController extends Controller
      */
     public function index()
     {
-        return view('pertanyaan.index');
+
+        $questions = DB::table('questions')
+                    ->get();
+        // dd($questions);
+        return view('pertanyaan.index', compact('questions'));
     }
 
     /**
@@ -48,22 +52,24 @@ class QuestionsController extends Controller
         ]);
 
         $user = Auth::user();
-
+        $waktu = time();
         // ! Cara pertama
-        // Question::create([
-        //     'title' => $request->title,
-        //     'content' => $request->content,
-        //     'user_id' => $user['id'],
-        // ]);
+        Question::create([
+            'title' => $request->title,
+            'content' => $request->content,
+            'user_id' => $user['id'],
+            'tags' => $request->tags,
+            'waktu_buat' => $waktu
+        ]);
 
-        // ! Cara kedua
-        $question = new Question;
-        $question->title = $request->title;
-        $question->content = $request->content;
-        $question->tags = $request->tags;
-        // $question->user_id = $user['id']; // Ini cara biasa buat hubungin fk si user
-        $question->user()->associate($user); // Ini cara kalo menggunakan eloquent relationship yg sifatnya "belongs to"
-        $question->save();
+        // // ! Cara kedua
+        // $question = new Question;
+        // $question->title = $request->title;
+        // $question->content = $request->content;
+        // $question->tags = $request->tags;
+        // // $question->user_id = $user['id']; // Ini cara biasa buat hubungin fk si user
+        // $question->user()->associate($user); // Ini cara kalo menggunakan eloquent relationship yg sifatnya "belongs to"
+        // $question->save();
 
 
 
@@ -87,8 +93,15 @@ class QuestionsController extends Controller
           $reputasis = DB::table('reputasions')
                         ->where('question_id',$question->id)
                         ->get();
-          
-        return view('pertanyaan.detail', compact('question','answers','comments','reputasis'));
+          // dump($question);
+          $questions = DB::table('questions')
+                        ->where('questions.id', $question->id)
+                        ->join('users','questions.user_id', 'users.id')
+                        ->select('questions.*','users.name as name','users.point as point')
+                        ->first();
+        // dd($questions[0]->created_at);||
+                        // dd($questions);
+        return view('pertanyaan.detail', compact('questions','answers','comments','reputasis'));
     }
 
     /**
@@ -121,7 +134,7 @@ class QuestionsController extends Controller
         $question->user()->associate($user);
         $question->update($request->all());
 
-        return redirect()->route('questions.index')->with('success', 'Data berhasil diubah');
+        return redirect('questions/' . $question->id)->with('success', 'Data berhasil diubah');
     }
 
     /**

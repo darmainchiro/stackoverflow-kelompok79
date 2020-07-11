@@ -28,7 +28,7 @@ Route::get('/questions/downvote/{question_id}','ReputasionsController@downVoteQu
 Route::get('/answers/upvote/{answers_id}/{question_id}','ReputasionsController@upVoteAnswer');
 Route::get('/answers/downvote/{answers_id}/{question_id}','ReputasionsController@downvoteAnswer');
 
-
+Route::get('/answer/best-answer/{answers_id}/{question_id}','AnswersController@bestAnswer');
 Route::get('questions/data', 'DataController@questions')->name('questions.data');
 Route::resource('questions', 'QuestionsController');
 Route::post('/answers/comment','AnswersController@comment');

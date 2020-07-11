@@ -21,10 +21,11 @@ class CreateAnswersTable extends Migration
             $table->text('content');
             $table->integer('vote')->default(0);
             $table->boolean('best_answer')->default(false);
-            $table->timestamps();
+            $table->integer('waktu_buat')->nullable();
+            $table->integer('waktu_update')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('question_id')->references('id')->on('questions');
+            $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
         });
     }
 

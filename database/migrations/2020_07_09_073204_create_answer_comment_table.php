@@ -24,7 +24,8 @@ class CreateAnswerCommentTable extends Migration
             $table->foreign('answer_id')->references('id')->on('answers')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->timestamps();
+            $table->integer('waktu_buat')->nullable();
+            $table->integer('waktu_update')->nullable();
         });
     }
 

@@ -20,7 +20,8 @@ class CreateQuestionsTable extends Migration
             $table->string('title');
             $table->text('content');
             $table->string('tags');
-            $table->timestamps();
+            $table->integer('waktu_buat')->nullable();
+            $table->integer('waktu_update')->nullable();
 
 
             $table->foreign('user_id')->references('id')->on('users');
