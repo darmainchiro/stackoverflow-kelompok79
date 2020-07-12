@@ -67,6 +67,9 @@
     </div>
     @endforeach
     @endif
+    <div class="mr-auto ml-auto d-block text-center">
+        {{$questions->onEachSide(1)->links()}}
+    </div>
 </div>
 
 @endsection

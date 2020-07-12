@@ -27,7 +27,7 @@ class Question extends Model
 
     public static function getAll()
     {
-        $result = DB::table('questions')->get();
+        $result = DB::table('questions')->paginate(2);
         return $result;
     }
 
