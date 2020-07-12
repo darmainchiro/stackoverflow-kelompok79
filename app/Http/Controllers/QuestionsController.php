@@ -18,17 +18,18 @@ class QuestionsController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth',['except' =>['index','show']]);
+        $this->middleware('auth',['except' =>['index','show','cari']]);
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index($data = null)
+    {   
 
         $questions = Question::getAll();
+        
         $reputasis = Reputasion::getAll();
         $answers = DB::table('answers')->get();
         return view('pertanyaan.index', compact('questions','answers','reputasis'));
@@ -168,5 +169,14 @@ class QuestionsController extends Controller
         ]);
 
         return redirect()->route('questions.show', $id)->with('success', 'Komen berhasil ditambah');
+    }
+
+    public function cari(Request $request)
+    {
+        
+        $reputasis = Reputasion::getAll();
+        $answers = DB::table('answers')->get();
+        $questions = DB::table('questions')->where('title','like','%' . $request->keyword . '%')->paginate();
+        return view('pertanyaan.index',compact('questions','reputasis','answers'));
     }
 }

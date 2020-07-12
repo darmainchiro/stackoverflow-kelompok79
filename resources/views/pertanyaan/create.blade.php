@@ -7,8 +7,7 @@
     <div class="row">
         <div class="col-md-12">
             <h1>Form buat pertanyaan</h1>
-            {{ Auth::user()->name }}
-
+            
             <form action="{{ route('questions.store') }}" method="post">
                 @csrf
                 <div class="form-group">

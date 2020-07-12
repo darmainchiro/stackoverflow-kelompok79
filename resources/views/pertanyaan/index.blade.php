@@ -1,7 +1,7 @@
 @extends('adminlte.master')
 @section('title-page','Home')
 @section('content')
-<div class="container">
+<div class="container mb-5">
     @if (count($questions) == 0)
         <div class="row p-5">
             <div class="col">
@@ -56,7 +56,7 @@
                         $tags = explode(',',$question->tags);
 
                         foreach($tags as $tag){
-                            echo "<a href='' class='badge badge-primary mr-2'>$tag</a>&nbsp";
+                            echo "<a href='cari/{{$question->tags}}' class='badge badge-primary mr-2'>$tag</a>&nbsp";
                             }
                     @endphp
                     
@@ -67,11 +67,13 @@
     </div>
     @endforeach
     @endif
-    <div class="mr-auto ml-auto d-block text-center">
-        {{$questions->onEachSide(1)->links()}}
-    </div>
+    
 </div>
-
+<div class="row" style="">
+        <div class="col-md-1 offset-md-4 justify-content-center">
+            {{$questions->onEachSide(1)->links()}}
+        </div>
+    </div>
 @endsection
 
 @push('scripts')

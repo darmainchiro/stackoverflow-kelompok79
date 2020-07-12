@@ -29,7 +29,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 	Route::post('/answers/{id}/store', 'AnswersController@store');
 });
-
+Route::post('/questions/cari','QuestionsController@cari');
 Route::resource('questions', 'QuestionsController');
 
 Auth::routes();
