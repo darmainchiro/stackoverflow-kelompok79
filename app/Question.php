@@ -27,7 +27,7 @@ class Question extends Model
 
     public static function getAll()
     {
-        $result = DB::table('questions')->paginate(10);
+        $result = DB::table('questions')->paginate(3);
         return $result;
     }
 
@@ -40,4 +40,5 @@ class Question extends Model
             'waktu_update' => time()
             ]);
     }
+
 }

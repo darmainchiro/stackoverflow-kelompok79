@@ -45,9 +45,9 @@
 
         </div>
         <div class="col-md-10 bg-secodndary">
-            <div class="judul">
+            <div class="judul d-block">
                 <a href="/questions/{{$question->id}}">
-                    <h4>{{$question->title}}</h4>
+                    <h4>{{$question->title}}
                 </a>
             </div>
             <div>

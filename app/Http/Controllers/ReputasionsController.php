@@ -52,17 +52,21 @@ class ReputasionsController extends Controller
     }
     public function downVoteQuestion($id)
     {
-        $userId = DB::table('questions')
+        $data = DB::table('questions')
                 ->join('users','users.id','questions.user_id')
                 ->select('questions.*','users.name as name','users.point as point')
                 ->where('questions.id',$id)->first();
 
-        $point = $userId->point;
-        $userId = $userId->user_id;
+        $point = $data->point;
+        $userId = $data->user_id;
         $user = DB::table('users')->where('id',$userId);
         if( $userId == Auth::id()){
            return redirect('questions/'.$id)->with('error','sebagai pembuat anda tidak dapat meng-DOWN pertanyaan anda sendiri');
+        } elseif(Auth::user()->point < 15){
+            return redirect('questions/'.$id)->with('error','minimal punya 15 point untuk downvote. Point anda : ' . Auth::user()->point);
         }
+
+        dd($data);
         $data = DB::table('reputasions')
                         ->where('user_id','=',Auth::id())
                         ->where('question_id',  $id)
@@ -114,7 +118,6 @@ class ReputasionsController extends Controller
                         ->first();
 
             
-        
         if($dataReputasi != null) {
             if( $dataReputasi->vote == 1){
                 return redirect('questions/' . $dataReputasi->question_id)->with('error','Anda hanya dapat melakukan sekali seumur hidup :(');
@@ -154,6 +157,8 @@ class ReputasionsController extends Controller
         $userId = $data->user_id;
         if( $userId == Auth::id()){
             return redirect('questions/' . $data->question_id)->with('error','sebagai pembuat anda tidak dapat meng-DOWN jawaban anda sendiri');
+        } elseif(Auth::user()->point < 15){
+            return redirect('questions/' . $data->question_id)->with('error','minimal punya 15 point untuk downvote. Point anda : ' . Auth::user()->point );
         }
         $dataReputasi = DB::table('reputasions')
                         ->where('user_id','=',Auth::id())
