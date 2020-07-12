@@ -60,7 +60,7 @@
             </div>
         </div>
     </div>
-    <div class="pl-4 mt-2 mb-1 ">
+    <div class="pl-4 mt-2 mb-1 border-top pt-2">
             <h5><span>{{count($answers)}} </span>Jawaban</h5>
     </div>
     @foreach ($answers as $answer)
@@ -96,7 +96,7 @@
                 </div>
                 <div class="justify-content-end pr-3" style="clear: both;">
                     <div class="float-left">
-                        <span class="klikJawaban">komentar</span>
+                        <span class="klikKomentar mr-3 text-primary" style="cursor: pointer;">komentar</span>
                            @if ($questions->user_id == Auth::id() && $answer->best_answer == 0)
                                     <a class="badge-" href="/answer/best-answer/{{$answer->id}}/{{$questions->id}}"> Vote jawaban terbaik</a>
                             @elseif ($questions->user_id == Auth::id() && $answer->best_answer == 1)
@@ -122,7 +122,7 @@
             @endif
         @endforeach
         <div class="row">
-            <div class="col-md-8 offset-md-4 commentForm" style="display: none;">
+            <div class="col-md-8 offset-md-4 commentForm d-none">
                 <form action="/answers/comment" method="post">
                     @csrf
                     <input type="hidden" name="question_id" value="{{$questions->id}}">
@@ -193,9 +193,15 @@
     tinymce.init(editor_config);
 </script>
 <script type="text/javascript">
-    $(document).on('click','.klikJawaban', function(){
-        $('.commentForm').hide();
-        find('.commentForm').css('display','block');
+    // $(document).on('click','.klikJawaban', function(){
+    //     $('.commentForm').hide();
+    //     find('.commentForm').css('display','block');
+    // });
+    const kliks = document.querySelectorAll('.klikKomentar');
+    kliks.forEach(function(klik){
+        klik.addEventListener('click',function(e){
+            klik.parentElement.parentElement.parentElement.parentElement.parentElement.lastElementChild.firstElementChild.classList.toggle('d-block');
+        });
     });
     // $().click()
 </script>

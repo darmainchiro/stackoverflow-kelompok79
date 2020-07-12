@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 3 | Log in</title>
+  <title>Login</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -26,7 +27,7 @@
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
-      <p class="login-box-msg">Sign in to start your session</p>
+      <p class="login-box-msg">Login dengan akun yang sudah terdaftar</p>
 
       <form method="POST" action="{{ route('login') }}">
       @csrf
@@ -75,12 +76,12 @@
 
       <p class="mb-1">
         @if (Route::has('password.request'))
-            <a href="#">I forgot my password</a>
+            <a href="#">Saya lupa password</a>
         @endif
       </p>
       
       <p class="mb-0">
-        <a href="/register" class="text-center">Register a new membership</a>
+        <a href="/register" class="text-center">Buat akun baru</a>
       </p>
     </div>
     <!-- /.login-card-body -->

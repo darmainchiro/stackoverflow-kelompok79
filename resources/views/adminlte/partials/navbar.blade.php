@@ -42,7 +42,7 @@
 
                     <p>
                         {{ Auth::user()->name }}
-                        <small>Member sejak {{ substr(Auth::user()->created_at,0,4) }}</small>
+                        <small>{{ Auth::user()->point}} Point</small>
                     </p>
                 </li>
                 <!-- Menu Body -->
@@ -67,7 +67,10 @@
             </ul>
         </li>
         @else
-        <a href="/login" class="btn btn-default btn-flat float-right">Login</a>
+        <a href="/register" class="btn btn-primary float-right mr-3">Register</a>
+        <a href="/login" class="btn btn-default float-right">Login</a>
+
+
         @endif
     </ul>
 </nav>
