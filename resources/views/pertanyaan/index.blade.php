@@ -19,7 +19,7 @@
                                 foreach($reputasis as $reputasi){
                                     if($reputasi->question_id == $question->id)
                                     {
-                                        $nilai++;
+                                        $nilai += $reputasi->vote;
                                     }
                                 }
                                 echo $nilai;

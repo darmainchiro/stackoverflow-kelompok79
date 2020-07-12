@@ -23,7 +23,7 @@ class ReputasionsController extends Controller
         $userId = $userId->user_id;
         $user = DB::table('users')->where('id',$userId);
         if( $userId == Auth::id()){
-            return redirect('questions/'.$id)->with('error','sebagai pembuat anda tidak dapat down pertanyaan anda sendiri');
+            return redirect('questions/'.$id)->with('error','sebagai pembuat anda tidak dapat meng-UP pertanyaan anda sendiri');
         }
         $data = DB::table('reputasions')
                         ->where('user_id','=',Auth::id())
@@ -61,7 +61,7 @@ class ReputasionsController extends Controller
         $userId = $userId->user_id;
         $user = DB::table('users')->where('id',$userId);
         if( $userId == Auth::id()){
-           return redirect('questions/'.$id)->with('error','sebagai pembuat anda tidak dapat down pertanyaan anda sendiri');
+           return redirect('questions/'.$id)->with('error','sebagai pembuat anda tidak dapat meng-DOWN pertanyaan anda sendiri');
         }
         $data = DB::table('reputasions')
                         ->where('user_id','=',Auth::id())
@@ -106,7 +106,7 @@ class ReputasionsController extends Controller
 
         $userId = $data->user_id;
         if( $userId == Auth::id()){
-            return redirect('questions/' . $data->question_id)->with('error','sebagai pembuat anda tidak dapat down pertanyaan anda sendiri');
+            return redirect('questions/' . $data->question_id)->with('error','sebagai pembuat anda tidak dapat meng-UP jawaban anda sendiri');
         }
         $dataReputasi = DB::table('reputasions')
                         ->where('user_id','=',Auth::id())
@@ -153,7 +153,7 @@ class ReputasionsController extends Controller
 
         $userId = $data->user_id;
         if( $userId == Auth::id()){
-            return redirect('questions/' . $data->question_id)->with('error','sebagai pembuat anda tidak dapat down pertanyaan anda sendiri');
+            return redirect('questions/' . $data->question_id)->with('error','sebagai pembuat anda tidak dapat meng-DOWN jawaban anda sendiri');
         }
         $dataReputasi = DB::table('reputasions')
                         ->where('user_id','=',Auth::id())
