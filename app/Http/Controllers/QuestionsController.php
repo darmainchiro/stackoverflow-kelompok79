@@ -176,7 +176,7 @@ class QuestionsController extends Controller
         
         $reputasis = Reputasion::getAll();
         $answers = DB::table('answers')->get();
-        $questions = DB::table('questions')->where('title','like','%' . $request->keyword . '%')->paginate(3);
+        $questions = DB::table('questions')->where('title','like','%' . $request->keyword . '%')->paginate(7);
         return view('pertanyaan.index',compact('questions','reputasis','answers'));
     }
 }
