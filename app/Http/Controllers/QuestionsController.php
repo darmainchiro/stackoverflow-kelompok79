@@ -123,9 +123,7 @@ class QuestionsController extends Controller
         ]);
 
         $user = Auth::user();
-        $question->user()->associate($user);
-        $question->update($request->all());
-
+        Question::updateData($question->id,$request);
         return redirect('questions/' . $question->id)->with('success', 'Data berhasil diubah');
     }
 

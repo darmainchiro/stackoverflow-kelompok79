@@ -30,4 +30,14 @@ class Question extends Model
         $result = DB::table('questions')->get();
         return $result;
     }
+
+    public static function updateData($id,$request)
+    {
+        DB::table('questions')->where('id',$id)->update([
+            'title' => $request->title,
+            'content' => $request->content,
+            'tags' => $request->tags,
+            'waktu_update' => time()
+            ]);
+    }
 }

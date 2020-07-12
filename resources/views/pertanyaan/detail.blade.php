@@ -32,7 +32,12 @@
             </div>
         <div class="col-md-11 border-left pl-4">
             <h4 class="float-left">{{$questions->name}}</h4>
-            <span class="float-right">{{date('l H:i A',$questions->waktu_buat)}}</span>
+            <div class="float-right">
+                <span>{{date('l H:i A',$questions->waktu_buat)}}</span>
+                @if ($questions->waktu_update != null)
+                    <span class="text-muted d-block">Diedit {{date('l H:i A',$questions->waktu_update)}}</span>
+                @endif
+            </div>
             <p style="clear: both;">
                 {!! $questions->content !!}
             </p>
@@ -48,10 +53,10 @@
             <div>
                 <p>
                     @if (Auth::id() == $questions->user_id)
-                    <form action="{{ route('questions.destroy', $questions->id) }}" method="post" class="d-inline">
+                    <form action="{{ route('questions.destroy', $questions->id) }}" method="post" class="d-inline" id="delete">
                         @csrf
                         @method('delete')
-                        <button type="submit" class="badge badge-danger border-none border p-2">Hapus</button>
+                        <button type="submit" class="badge badge-danger border-none border p-2" id="hapus" onclick="return yakinHapus()">Hapus</button>
                     </form>
                     <a href="{{ route('questions.edit', $questions->id) }}" class="badge badge-warning p-2">EDIT</a>
                     @endif
@@ -193,16 +198,28 @@
     tinymce.init(editor_config);
 </script>
 <script type="text/javascript">
-    // $(document).on('click','.klikJawaban', function(){
-    //     $('.commentForm').hide();
-    //     find('.commentForm').css('display','block');
-    // });
     const kliks = document.querySelectorAll('.klikKomentar');
     kliks.forEach(function(klik){
         klik.addEventListener('click',function(e){
             klik.parentElement.parentElement.parentElement.parentElement.parentElement.lastElementChild.firstElementChild.classList.toggle('d-block');
         });
     });
-    // $().click()
+    $('#delete').submit(function(e){
+        e.preventDefault();
+        $this = $(this);
+            Swal.fire({
+              title: 'Yakin ingin hapus Pertanyaan ini ?',
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes!'
+
+            }).then((result) => {
+              if (result.value) {
+                $this.unbind('submit').submit();
+              }
+            })
+    })
 </script>
 @endpush

@@ -2,7 +2,14 @@
 @section('title-page','Home')
 @section('content')
 <div class="container">
-    @foreach( $questions as $key => $question)
+    @if (count($questions) == 0)
+        <div class="row p-5">
+            <div class="col">
+                <h3 class="text-center">Tidak ada data</h3>
+            </div>
+        </div>
+    @else
+        @foreach( $questions as $key => $question)
     <div class="row p-2 border-bottom">
         <div class="col-md-2 d-flex justify-content-center text-center mt-auto mb-auto">
             <div class="mr-2">
@@ -51,8 +58,6 @@
                         foreach($tags as $tag){
                             echo "<a href='' class='badge badge-primary mr-2'>$tag</a>&nbsp";
                             }
-
-
                     @endphp
                     
                 </div>
@@ -61,10 +66,11 @@
         </div>
     </div>
     @endforeach
+    @endif
 </div>
 
 @endsection
 
 @push('scripts')
-<!-- @include('adminlte.partials.alert') -->
+    @include('adminlte.partials.alert')
 @endpush
